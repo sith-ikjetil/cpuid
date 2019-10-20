@@ -1,27 +1,38 @@
 
-        extern          _printf
+        extern          GetStdHandle
+        extern          WriteConsoleA
 
-        GLOBAL           _main
+        global           _main
 
-        SECTION         .data
-fmt:    DB              "%s", 10, 0
-msg:    DB              "123456789012", 0
-        
-        SECTION         .text
-  
+        section         .data
+fmt:                    db              "%s", 0
+msg:                    db              "123456789012", 0
+handle:                 dd              0       
+written:                dd              0
+        section         .text
 _main:        
-        XOR             EAX, EAX
-        CPUID                               ; get cpu ident
-        MOV             [msg], EBX          ; Genu
-        MOV             [msg+4], EDX        ; ineI
-        MOV             [msg+8], ECX        ; ntel
+        xor             eax,eax
+        cpuid                               ; get cpu ident
+        mov             [msg], ebx          ; Genu
+        mov             [msg+4], edx        ; ineI
+        mov             [msg+8], ecx        ; ntel
 
-        PUSH            RBP
-        MOV             RDI, fmt
-        MOV             RSI, msg
-        XOR             RAX, RAX
-        CALL            _printf
-        POP             RBP
+        push            rbp
+        mov             rcx, -11
+        call            GetStdHandle
+        mov             [handle], eax
+        pop             rbp
 
-        MOV             RAX, 0
-        RET
+        push            rbp
+        mov             rcx, [handle]
+        mov             rdx, msg
+        mov             r8, 12
+        mov             r9, written
+        xor             rsi,rsi
+        push            rsi
+        call            WriteConsoleA
+        pop             rsi
+        pop             rbp
+
+        mov             rax, 0
+        ret
