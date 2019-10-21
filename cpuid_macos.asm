@@ -7,10 +7,9 @@ msg:    db              "123456789012", 10
 _start:   
         xor             eax, eax
         cpuid                                   ; get cpu ident
-        mov             rsi, msg
-        mov             [rsi], ebx              ; Genu
-        mov             [rsi+4], edx            ; ineI
-        mov             [rsi+8], ecx            ; ntel
+        mov             [rel msg], ebx              ; Genu
+        mov             [rel msg+4], edx            ; ineI
+        mov             [rel msg+8], ecx            ; ntel
 
         mov             rax, 0x02000004         ; system call for write
         mov             rdi, 1                  ; stdout
