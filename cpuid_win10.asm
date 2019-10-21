@@ -5,7 +5,6 @@
         global           _main
 
         section         .data
-fmt:                    db              "%s", 0
 msg:                    db              "123456789012", 0
 handle:                 dd              0       
 written:                dd              0
