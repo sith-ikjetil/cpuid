@@ -27,8 +27,7 @@ _main:
         mov             rdx, msg
         mov             r8, 12
         mov             r9, written
-        xor             rsi,rsi
-        push            rsi
+        push            0
         call            WriteConsoleA
         pop             rsi
         pop             rbp
